@@ -36,6 +36,8 @@ https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html<br />
 - [ ] Dodati /nc_msg "" da posalje iz navodnika ne enkriptovano nc botu
 - [ ] Napraviti deb package na apt-get install mhtc?
 - [ ] Nova nit za login
+- [ ] Android verzija chata
+- [ ] Prebaci na tor mrezu
 
 `Ovako izgleda poruka kad je enkriptovana:`<br />
 ![](encrYpt.png)
