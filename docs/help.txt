@@ -26,9 +26,6 @@ In-chat options:
   /nc-msg <Content>	   SOON: sends everything labeled as <Content> to nc-bot unencrypted...
   
 
-For bug reporting instructions, please send mail to:
-<4370557@gmail.com>.
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Usage: ./tcps 
 
@@ -45,9 +42,6 @@ Data files:
   logs.dat		   Keeps track of all errors and important moments happening on chat server
   messages.dat		   Keeps track of messages and their time
   ban.dat		   SOON: Keeps track of all banned ip addresses
-
-For bug reporting instructions, please send mail to:
-<4370557@gmail.com>
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
  My goal for this project was being able to have in-terminal way of speaking to friends. 
