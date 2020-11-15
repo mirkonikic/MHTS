@@ -1,0 +1,106 @@
+Ime: Mirko Nikic
+Ime Programa: Mirko's hidden TCP server
+Funkcija: Projekat za stari laptop server
+Program: Enkriptovani host-client low level server
+
+tcps.c
+	1+Otvori server po tcp protokolu
+	2+Prihvati konekciju od hosta(clienta) sa privatne mreze na protokolu 3946 sa komandom nc ili telnet...
+	3+SHELL ANIMACIJA
+	4-Multithreaduj ili koristi Select metodu za servisiranje vise klijenata, da bi bilo kao chat
+	5-Napravi tcpc.c klijent program da bi imali vise mogucnosti od nc ili telnet komande
+	6-Na pocetku trazi ime i sacuvaj u fajl za datu adresu. Ako postoji u fajlu dalje nemoj traziti ime.
+	7-Druga nit koja ceka na komandu na serveru, pomocu SHM i FORK()
+	8-Dodaj passworde userima zbog zastite
+	9-Dodaj da mogu klijenti da biraju od ponudjenih usera sa kojima zele da pricaju, kao kad apdejtujes desktop environment pa brisa jedno od privih 4 broja za izbor...
+	10-Mogucnost kreiranja grupa
+	11-Mogucnost slanja fajla, i ako npr. prvih 4B poruke ima u hexa FAJL - \x46\x41\x4a\x4c ili TEXT - \x54\x45\x58\x54, cuva kao fajl gde je u drugih 4B spec format, ili prikazuje tekst.
+	12-Mogucnost primanja fajla, preko nc ili klijenta, ali bih voleo da nadjem nacin da saljem preko nc komande jer je svi OS-ovi imaju, a mog klijenta mozda necu moci da instaliram... Pa npr ukucam cat mirko.pdf | nc 192.... 3946 i posaljem sve bajtove iz fajla gde ih posle prikupim i promenim ekstenziju na mom kompu... MOGU DA PRIMAM FAJLOVE PREKO NC KOMANDE
+	13-Dodaj animaciju ali da tacno prikazuje koji deo fajla je poslat i primljen
+
+	.
+	.
+	.
+	19-Enkriptuj 5 puta i to sve klijent dekriptuje
+	20-Prevedi preko tora sve poruke pomocu TOR API
+
+tcpc.c
+
+ftps.c
+
+//mogu cak da napravim dva servera, jedan za poruke tcps i jedan za fajlove ftps, 3946 i 3915, za tcps ti treba tcp,  nick i mogu vise klijenata, a za ftps ti treba samo nc
+
+INFO
+./tcps
+
+	->PRVO recieveuje fajl, da bih mogao da saljem samo sebi odakle hocu tako sto ukucam $(cat IME_FAJLA | nc IP_ADRESA_MOJA PORT). 
+	  DRUGO ceka na upis passworda odnosno vrv slovo A samo.
+	  TRECE salje animaciju tcpIntro(10000).
+	  CETVRTO ako mu je nepoznata tvoja ip adresa trazi nick i upisuje je u nick.dat
+	  PETO info o svim primljenim porukama (vrtemenu, sadrzaju, velicini i adresi slanja), errorima, konekcijama(pokusaj konektovanja, uspeh konektovanja, pogresnih passworda) itd.
+		se nalaze u logs.dat
+	  SESTO info o svim userima u users.dat(Broj poslatih poruka, vreme konektovanja i diskonektovanja, ip adresa, geolokacija, nick, velicinu svih poslatih poruka do sada itd.)
+		se nalaze u users.dat
+	  SEDMO slusa za poruke od klijenta...
+	  OSMO kad stigne poruka salje kompu mom signal da mi da notifikaciju ili mogu samo da sshujem server na boot i da $(tail -f logs.dat) da mi izadje i kada se neko loguje na server
+	  DEVETO preko nc komande mozes da saljes fajlove serveru i pristupis GRUPNOM chatu samo.
+		 Gde bi sa klijentom mogao da imas i priv poruke i odvojene grupe i svoj passwd...
+	  DESETO kad primi poruku, cuva je u messages.dat sa adresom slanja i vremenom vrv, u logs.dat se cuva velicina poruke ime i adresa i vreme slanja.
+		i prosledjuje je svim konektovanim socketima. Ako se neko konektuje kasnije salje mu se posledjnih n poruka.
+	  JEDANAESTO PRE SLANJA BILO CEGA OBAVEZNO ENKRIPTUJ SVE!!
+	  DVANAESTO probaj da prevedes mrezu na tor ipak...
+
+
+
+
+	4.      TCPS je skriveni enkriptovani chat po tcp protokolu i mogucnosti toru ali, ne jos barem. 
+			Ko god se konektuje na server, ako je odobrena IP adresa i passw, moze da bude deo grupe. Procitaj Select i ostale nacine MultiClienta na serveru...
+
+	5.      Klijent:
+			-Prvo konektovanje je inicijalizacija ako mu je dozvoljena ip adresa, ako nije onda ga server odbija. 
+				Ako jeste server trazi njegovo ime i passwrd postavljen od strane mirka.
+	
+	6.	Postoje tri fajla za sada:	
+			-Messages.dat, gde se poruke cuvaju u fromatu [%username: %message in ascii format | Hex format]
+			-Users.dat, gde se upisuju svi moguci detalji o useru, koji OS, ime vreme slanja ip adresa, po mogucnosti odakle sa ip trakerom, password kao u /etc/passwd...
+			-Nick.dat, gde se skladiste kao dns server, ip adrese i nickovi, [%IP|%Nick]
+
+	7.	Obezbedi deljenu memoriju jer odvojeni procesi prave odvojene environmente. U toj deljenoj memoriji ce se nalaziti integeri.
+			Spomenuti integeri bi bili signali na promene komandi. MOZE CAK I SEMAFORI??
+
+	8.	Po ulazu na server prva poruka je passwd koji su oni postavili i debelo je enkriptovan u Users.dat
+
+	9.	Kad zavrsis multi Klijente bice jedan gde se svi nalaze, i jedan gde mogu privatno da pricaju ljudi, izaberes jednog od onih koji su dozvolili da im pristupis.
+			Tu bi se pravio odvojeni ali zasticeni fajl npr. IDusera1:IDusera2.dat i unutar bi se cuvale poruke.
+
+	10.	Mozda jednog dana dodam da mogu i grupe da se prave al nmp dal bih to dodao, za sad samo ovo
+
+	11.	Mogucnost slanja fajla sa servera za klijenta? Mozda bolje da server samo kontrolise stvari a klijenti da salju jedni drugima ili serveru.
+			Ali moze i da napravim da server posalje npr odredjenoj osobi nmp, razmislicu o ovome...
+
+	12.	OVO BOLJE ZA FTPS ali omogucicu klijentu da moze da posalje nesto kao fajl ako zeli. Mada mogu i da napravim da je druga poruka inicijalizacija.
+			Jer npr prva moze da uvek ocekuje prosledjeni fajl a druga da povezuje na server i tako mi ne bi trebalo dva servera i dva porta!
+
+	13.	OVO MI TREBA, pogledaj shell script za ovo mozda ili nes slicno pls
+
+	...
+
+	19.	Zavrsi ART OF EXPLOITATION i vidi najbolju enkripciju za fajlove pa ih tako enkriptuj! i klijent ih dekriptuje samo, mada nzm kako ce NC komanda da dekriptuje
+			MOZDA PRVI TAJ SEND SKROZ UNENCRIPTOVANO MADA SAM ONDA ZEZNUT AKO POGLEDAJU.
+			MOZDA NEKA LINUX KOMANDA MOZE DA ENKRIPTUJE... Pogledaj to bolje
+
+	20.	Video sam na netu da bas za ovo postoji tor api, moze da se iskoristi da se skroz sakrije chat!
+
+	CIM SE KONEKTUJES MOJ SERVER OCEKUJE DA PRIMI NESTO ZAVISI DAL JE FAJL ILI TEXT, I CUVA BROJ PORUKA OD ODREDJENE IP ADRESE, OPCIJE:
+		I. POSLE 100 PORUKA NUDI DA STAVIS SEBI NICK
+		II. JA POSTAVLJAM NICKOVE NA SERVERU SA KOMANDOM
+		III. JA POSTAVLJAM NICKOVE U FAJLU KOJI CUVA PODATKE O USERIMA
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	ENKRIPTUJ SVE:
+		M1RK0+ - imam key od 4096 slova randomly assigned i saberem ih sa datom reci
+		M1RK0_XOR  - imam jos jedan key od 4096 slova randomly assigned i XOR ujem sa datom reci
+		ROT[13] - SVAKO SLOVO PLUS 13
+		AES - AES enkripcija sa skrivenim kljucem
+

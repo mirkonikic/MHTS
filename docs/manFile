@@ -1,0 +1,29 @@
+NAME
+    ./mhtc - client to a heavy encrypted tcp chat Server
+
+SYNOPSIS
+    argumenti prosledjeni pri pozivu:
+	./mhtc [ARG][VREDNOST]
+		-msg [0,1,2] - omogucava notifikacije pri primanju poruka, 0-bez notifikacija, 1-izlazi poruka u blizini misa, 2-zvucno obavestenje
+
+    argumenti u toku izvrsavanja programa:
+	/msg0 - onesposobljuje notifikacije
+	/msg1 - omogucava notifikacije gui
+	/msg2 - omogucava nitifikacije zvukom
+	/clear - obrisi poruke sa ekrana
+	/exit - napusti server
+	/hide - sakrij chat, kreira kopiju bash terminala sa vasim user-om
+	/show - ako je skriven chat, otkriva ga
+	/poke [user] - pokuje usera sa datim imenom
+	/scan - vraca sve online usere
+
+DESCRIPTION
+    mhtc je tcp client-server chat niskog nivoa, heavily encrypted and soon ported on tor.
+	Main goal of this program was privacy and functionality...
+
+SEE ALSO
+    ./mhts
+
+AUTHOR
+   Mirko Nikic
+
